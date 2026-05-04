@@ -25,8 +25,8 @@ IDataView data = ml.Data.LoadFromTextFile<UsedCarData>(
     hasHeader: true,
     separatorChar: ',');
 
-// Select preview the data
-var preview = data.Preview(maxRows: 5);
+//// Select preview the data
+//var preview = data.Preview(maxRows: 5);
 
 //// Display preview data
 //foreach (var row in preview.RowView)
@@ -68,6 +68,9 @@ var split = ml.Data.TrainTestSplit(data, testFraction: 0.2);
 
 // Modified original Estimator implementation to use nameof() method
 var pipeline =
+    // Fit() was giving an error when processing the columns of type string,
+    // so I used the OneHotEncoding to convert them to numeric values, as
+    // suggested by Microsoft Copilot.
     ml.Transforms.Categorical.OneHotEncoding(
         new[]
         {
